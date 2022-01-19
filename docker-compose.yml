@@ -1,0 +1,53 @@
+version: '3' #docker compose version
+services:
+  app:
+    container_name: inventory_management
+    build: . #builds Dockerfile
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes:
+      - api:/usr/src/app/
+    depends_on:
+      - inventory_management_mysql
+    networks:
+      - inventory_management
+
+  inventory_management_mysql:
+    image: mysql:5.7
+    container_name: inventory_management_db_mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_HOST=${DB_HOST}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - database_mysql:/var/lib/mysql
+    networks:
+      - inventory_management
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    depends_on:
+      - inventory_management_mysql
+    environment:
+      - PMA_HOST=inventory_management_mysql # Note the "inventory_management_mysql". Must be the name of the what you used as the mysql service.
+      - PMA_USER=${DB_USER}
+      - PMA_PORT=${DB_PORT}
+      - PMA_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 9090:80
+    restart: always
+    networks:
+      - inventory_management
+
+volumes:
+  api:
+  database_mysql: # Networks to be created to facilitate communication between containers
+networks:
+  inventory_management:
+    driver: bridge
