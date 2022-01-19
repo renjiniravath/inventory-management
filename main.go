@@ -24,6 +24,9 @@ func main() {
 	e.Static("/", "public")
 
 	e.GET("/items", handler.GetInventoryList)
+
+	e.GET("/warehouses", handler.GetWarehouseList)
+
 	//Starting the api server
 	go func() {
 		if err := e.Start(":8080"); err != nil {
