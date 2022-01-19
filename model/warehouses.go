@@ -1,6 +1,8 @@
 package model
 
-import "app/container"
+import (
+	"app/container"
+)
 
 //Item holds the details of an item
 type Warehouse struct {
@@ -27,4 +29,14 @@ func ReadWarehouseList() (WarehouseListResponse, error) {
 		Count:      len(warehouses),
 	}
 	return warehouseListResponse, nil
+}
+
+//CreateWarehouse creates a new warehouse entry in db
+func CreateWarehouse(warehouse Warehouse) error {
+	dbw := container.GetWriter()
+	_, err := dbw.Exec("INSERT INTO warehouses (name) VALUES (?)", warehouse.Name)
+	if err != nil {
+		return err
+	}
+	return nil
 }

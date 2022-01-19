@@ -9,3 +9,7 @@ func GetWarehouseList() (model.WarehouseListResponse, error) {
 	}
 	return warehouseListResponse, nil
 }
+
+func CreateWarehouse(warehouse model.Warehouse) error {
+	return model.CreateWarehouse(warehouse)
+}

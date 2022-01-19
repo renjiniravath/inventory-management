@@ -23,9 +23,10 @@ func main() {
 
 	e.Static("/", "public")
 
-	e.GET("/items", handler.GetInventoryList)
+	e.GET("/item", handler.GetInventoryList)
 
-	e.GET("/warehouses", handler.GetWarehouseList)
+	e.GET("/warehouse", handler.GetWarehouseList)
+	e.POST("/warehouse", handler.CreateWarehouse)
 
 	//Starting the api server
 	go func() {
