@@ -1,15 +1,249 @@
 <html>
   <head>
-    <title>Href Attribute Example</title>
+    <title>Inventory Management Application</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <h1>Href Attribute Example</h1>
-    <p>
-      <a href="https://www.freecodecamp.org/contribute/"
-        >The freeCodeCamp Contribution Page</a
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="pills-home-tab"
+          data-bs-toggle="pill"
+          data-bs-target="#pills-home"
+          type="button"
+          role="tab"
+          aria-controls="pills-home"
+          aria-selected="true"
+        >
+          Items
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="pills-profile-tab"
+          data-bs-toggle="pill"
+          data-bs-target="#pills-profile"
+          type="button"
+          role="tab"
+          aria-controls="pills-profile"
+          aria-selected="false"
+        >
+          Warehouses
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div
+        class="tab-pane fade show active"
+        id="pills-home"
+        role="tabpanel"
+        aria-labelledby="pills-home-tab"
       >
-      shows you how and where you can contribute to freeCodeCamp's community and
-      growth.
-    </p>
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Item Name</th>
+              <th scope="col">Warehouse</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="itemTableBody"></tbody>
+        </table>
+        <button type="button" class="btn btn-warning">Add Item</button>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="pills-profile"
+        role="tabpanel"
+        aria-labelledby="pills-profile-tab"
+      >
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Warehouse Name</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="warehouseTableBody"></tbody>
+        </table>
+        <button
+          type="button"
+          class="btn btn-warning"
+          data-bs-toggle="modal"
+          data-bs-target="#warehouseModal"
+        >
+          Add Warehouse
+        </button>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="warehouseModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Add Warehouse</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="warehouseName" class="form-label"
+                  >Warehouse Name</label
+                >
+                <input class="form-control" id="warehouseName" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="itemModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Add Item</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="itemName" class="form-label">Item Name</label>
+                <input class="form-control" id="itemName" />
+              </div>
+              <div class="mb-3">
+                <label for="warehouse" class="form-label">Warehouse</label>
+                <select
+                  id="warehouseSelect"
+                  class="form-select form-select-sm"
+                  aria-label=".form-select-sm example"
+                ></select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
+  <!-- JavaScript Bundle with Popper -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    const loadItems = async () => {
+      const response = await fetch("http://localhost:8080/item");
+      const resp = await response.json();
+      const table = document.getElementById("itemTableBody");
+      resp.items.forEach((item, index) => {
+        let row = table.insertRow();
+        let num = row.insertCell(0);
+        num.innerHTML = index + 1;
+        let name = row.insertCell(1);
+        name.innerHTML = item.name;
+        let warehouseName = row.insertCell(2);
+        warehouseName.innerHTML = item.warehouseName;
+        let editItem = row.insertCell(3);
+        editItem.innerHTML =
+          "<button type='button' class='btn btn-success'>Edit</button>";
+        let deleteItem = row.insertCell(4);
+        deleteItem.innerHTML =
+          "<button type='button' class='btn btn-danger' onclick='deleteItem(" +
+          item.id +
+          ")'>Delete</button>";
+      });
+    };
+    const loadWarehouses = async () => {
+      const response = await fetch("http://localhost:8080/warehouse");
+      const resp = await response.json();
+      const table = document.getElementById("warehouseTableBody");
+      resp.warehouses.forEach((warehouse, index) => {
+        let row = table.insertRow();
+        let num = row.insertCell(0);
+        num.innerHTML = index + 1;
+        let name = row.insertCell(1);
+        name.innerHTML = warehouse.name;
+        let editWarehouse = row.insertCell(2);
+        editWarehouse.innerHTML =
+          "<button type='button' class='btn btn-success'>Edit</button>";
+        let deleteWarehouse = row.insertCell(3);
+        deleteWarehouse.innerHTML =
+          "<button type='button' class='btn btn-danger' onclick='deleteWarehouse(" +
+          warehouse.id +
+          ")'>Delete</button>";
+        getElementById("#warehouseSelect").innerHTML +=
+          "<option value=" + warehouse.id + ">" + warehouse.name + "</option>";
+      });
+    };
+    const deleteItem = async (id) => {
+      const response = await fetch(`http://localhost:8080/item/${id}`, {
+        method: "DELETE",
+      });
+      location.reload();
+    };
+    const deleteWarehouse = async (id) => {
+      const response = await fetch(`http://localhost:8080/warehouse/${id}`, {
+        method: "DELETE",
+      });
+      location.reload();
+    };
+    loadItems();
+    loadWarehouses();
+  </script>
 </html>
