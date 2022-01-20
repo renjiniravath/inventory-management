@@ -24,9 +24,14 @@ func main() {
 	e.Static("/", "public")
 
 	e.GET("/item", handler.GetInventoryList)
+	e.POST("/item", handler.CreateItem)
+	e.PUT("/item/:id", handler.EditItem)
+	e.DELETE("/item/:id", handler.DeleteItem)
 
 	e.GET("/warehouse", handler.GetWarehouseList)
 	e.POST("/warehouse", handler.CreateWarehouse)
+	e.PUT("/warehouse/:id", handler.EditWarehouse)
+	e.DELETE("/warehouse/:id", handler.DeleteWarehouse)
 
 	//Starting the api server
 	go func() {

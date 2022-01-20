@@ -68,13 +68,13 @@ func GetMySqlConnection() {
 
 	logger.Info.Println("Mysql Connection Success")
 
-	_, err = dbw.Exec("CREATE TABLE IF NOT EXISTS `inventory_management`.`items` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(30) NOT NULL , `warehouse_id` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;")
-	if err != nil {
-		logger.Error.Fatalln("Error while creating items table : ", err)
-	}
-
 	_, err = dbw.Exec("CREATE TABLE IF NOT EXISTS `inventory_management`.`warehouses` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(30) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;")
 	if err != nil {
 		logger.Error.Fatalln("Error while creating warehouses table : ", err)
+	}
+
+	_, err = dbw.Exec("CREATE TABLE IF NOT EXISTS `inventory_management`.`items` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(30) NOT NULL , `warehouse_id` INT NOT NULL , PRIMARY KEY (`id`), FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)) ENGINE = InnoDB;")
+	if err != nil {
+		logger.Error.Fatalln("Error while creating items table : ", err)
 	}
 }

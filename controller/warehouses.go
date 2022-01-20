@@ -13,3 +13,11 @@ func GetWarehouseList() (model.WarehouseListResponse, error) {
 func CreateWarehouse(warehouse model.Warehouse) error {
 	return model.CreateWarehouse(warehouse)
 }
+
+func EditWarehouse(warehouse model.Warehouse) (int64, error) {
+	return model.EditWarehouse(warehouse)
+}
+
+func DeleteWarehouse(id int) (int64, error) {
+	return model.DeleteWarehouse(id)
+}

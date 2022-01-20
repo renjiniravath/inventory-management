@@ -12,7 +12,7 @@ type Warehouse struct {
 
 //WarehouseListResponse holds the response of a warehouse list get request
 type WarehouseListResponse struct {
-	Warehouses []Warehouse `json:"warehouse"`
+	Warehouses []Warehouse `json:"warehouses"`
 	Count      int         `json:"count"`
 }
 
@@ -39,4 +39,32 @@ func CreateWarehouse(warehouse Warehouse) error {
 		return err
 	}
 	return nil
+}
+
+//EditWarehouse updates the name of a warehouse in db
+func EditWarehouse(warehouse Warehouse) (int64, error) {
+	dbw := container.GetWriter()
+	result, err := dbw.Exec("UPDATE warehouses SET name = ? WHERE id = ?", warehouse.Name, warehouse.ID)
+	if err != nil {
+		return 0, err
+	}
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return rowsAffected, nil
+}
+
+//DeleteWarehouse deletes a warehouse from db
+func DeleteWarehouse(id int) (int64, error) {
+	dbw := container.GetWriter()
+	result, err := dbw.Exec("DELETE FROM warehouses WHERE id = ?", id)
+	if err != nil {
+		return 0, err
+	}
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return rowsAffected, nil
 }

@@ -9,3 +9,15 @@ func GetInventoryList() (model.ItemListResponse, error) {
 	}
 	return inventoryList, nil
 }
+
+func CreateItem(item model.Item) error {
+	return model.CreateItem(item)
+}
+
+func EditItem(item model.Item) (int64, error) {
+	return model.EditItem(item)
+}
+
+func DeleteItem(id int) (int64, error) {
+	return model.DeleteItem(id)
+}
