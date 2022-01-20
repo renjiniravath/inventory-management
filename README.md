@@ -68,7 +68,7 @@ Adds a item to the inventory
 
 ### Response
 
-```json
+```
 Item successfully created
 ```
 
@@ -89,7 +89,7 @@ Provide atleast one of the fields
 
 ### Response
 
-```json
+```
 Item successfully edited
 ```
 
@@ -99,7 +99,7 @@ Deletes an item from inventory
 
 ### Response
 
-```json
+```
 Item successfully deleted
 ```
 
@@ -139,7 +139,7 @@ Adds a warehouse
 
 ### Response
 
-```json
+```
 Warehouse successfully created
 ```
 
@@ -157,7 +157,7 @@ Updates the name of a warehouse
 
 ### Response
 
-```json
+```
 Warehouse successfully edited
 ```
 
@@ -167,6 +167,6 @@ Deletes an warehouse
 
 ### Response
 
-```json
+```
 Warehouse successfully deleted
 ```
